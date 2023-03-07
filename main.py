@@ -17,6 +17,8 @@ class Channel:
         self.video_count = self.channel['items'][0]['statistics']['videoCount']
         self.view_count = self.channel['items'][0]['statistics']['viewCount']
 
+    def print_info(self):
+        print(json.dumps(self.channel, indent=2, ensure_ascii=False))
 
     @property
     def channel_id(self):
@@ -39,24 +41,39 @@ class Channel:
         info = open(file_name, 'w', encoding='UTF-8')
         json.dump(data, info, indent=2, ensure_ascii=False)
 
-    def print_info(self):
-        print(json.dumps(self.channel, indent=2, ensure_ascii=False))
+    def __str__(self):
+        return f'Youtube-канал: {self.channel_name}'
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+
 
 
 MondoMedia = Channel('UCxLpKibphYqXrXpxAnR8MfA')
 #MondoMedia.print_info()
 
-print(MondoMedia.channel_name)
-print(MondoMedia.channel_description)
-print(MondoMedia.channel_url)
-print(MondoMedia.subscriber_count)
-print(MondoMedia.video_count)
-print(MondoMedia.view_count)
+#print(MondoMedia.channel_name)
+#print(MondoMedia.channel_description)
+#print(MondoMedia.channel_url)
+#print(MondoMedia.subscriber_count)
+#print(MondoMedia.video_count)
+#print(MondoMedia.view_count)
+#
+#print(MondoMedia.channel_id)
+##MondoMedia.channel_id = 'id change'
+#
+#
+#print(MondoMedia.get_service())
+#
+#MondoMedia.to_json('Mondo.json')
 
-print(MondoMedia.channel_id)
-#MondoMedia.channel_id = 'id change'
-
-
-print(MondoMedia.get_service())
-
-MondoMedia.to_json('Mondo.json')
+print(MondoMedia)
+vDud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')
+print(vDud)
+print(MondoMedia > vDud)
+print(MondoMedia < vDud)
+print(MondoMedia + vDud)
