@@ -51,9 +51,36 @@ class Channel:
         return int(self.subscriber_count) + int(other.subscriber_count)
 
 
+class Video(Channel):
+
+    def __init__(self, video_id):
+        self.video_id = video_id
+
+        self.video = self.get_service().videos().list(id=self.video_id, part='snippet,statistics').execute()
+
+        self.video_name = self.video['items'][0]['snippet']['title']
+        self.view_count = self.video['items'][0]['statistics']['viewCount']
+        self.like_count = self.video['items'][0]['statistics']['likeCount']
+
+    def __str__(self):
+        return self.video_name
 
 
-MondoMedia = Channel('UCxLpKibphYqXrXpxAnR8MfA')
+class PLVideo(Video):
+
+    def __init__(self, video_id, pl_id):
+        self.pl_id = pl_id
+        super().__init__(video_id)
+
+        self.pl = self.get_service().playlists().list(id=self.pl_id, part='snippet').execute()
+
+        self.pl_name = self.pl['items'][0]['snippet']['title']
+
+    def __str__(self):
+        return f'{self.video_name}{self.pl_name}'
+
+
+#MondoMedia = Channel('UCxLpKibphYqXrXpxAnR8MfA')
 #MondoMedia.print_info()
 
 #print(MondoMedia.channel_name)
@@ -71,9 +98,15 @@ MondoMedia = Channel('UCxLpKibphYqXrXpxAnR8MfA')
 #
 #MondoMedia.to_json('Mondo.json')
 
-print(MondoMedia)
-vDud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')
-print(vDud)
-print(MondoMedia > vDud)
-print(MondoMedia < vDud)
-print(MondoMedia + vDud)
+#print(MondoMedia)
+#vDud = Channel('UCMCgOm8GZkHp8zJ6l7_hIuA')
+#print(vDud)
+#print(MondoMedia > vDud)
+#print(MondoMedia < vDud)
+#print(MondoMedia + vDud)
+
+
+video1 = Video('9lO06Zxhu88')
+print(video1)
+video2 = PLVideo('BBotskuyw_M', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
+print(video2)
