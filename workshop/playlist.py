@@ -23,6 +23,7 @@ class PlayList:
                                                ).execute()
 
     def show_best_video(self):
+        """метод находит самое популярное видео из плейлиста по количеству лайков, выдаёт ссылку"""
         video_likes = [int(likes['statistics']['likeCount']) for likes in self.video_response['items']]
         most_likes = max(video_likes)
         for i in self.video_response['items']:
@@ -32,6 +33,7 @@ class PlayList:
 
     @property
     def total_duration(self):
+        """метод подсчитывает общую длительность всех видео из плейлиста"""
         timing_list = []
         for video in self.video_response['items']:
             iso_8601_duration = video['contentDetails']['duration']
