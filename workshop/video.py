@@ -8,10 +8,14 @@ class Video:
         self.video_id = video_id
 
         self.video = self.get_api_object().videos().list(id=self.video_id, part='snippet,statistics').execute()
-
-        self.video_name = self.video['items'][0]['snippet']['title']
-        self.view_count = self.video['items'][0]['statistics']['viewCount']
-        self.like_count = self.video['items'][0]['statistics']['likeCount']
+        try:
+            self.video_name = self.video['items'][0]['snippet']['title']
+            self.view_count = self.video['items'][0]['statistics']['viewCount']
+            self.like_count = self.video['items'][0]['statistics']['likeCount']
+        except Exception:
+            self.video_name = None
+            self.view_count = None
+            self.like_count = None
 
     @staticmethod
     def get_api_object():
